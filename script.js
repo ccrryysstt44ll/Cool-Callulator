@@ -1,31 +1,58 @@
 // Display Logic
+let isResultDisplayed = false;
 const display = document.getElementById('display');
 
+// Input Validation
+const isValidInput = (value) => /^[0-9+\-*/().]$/.test(value);
+
+// Append Characters
 function appendToDisplay(value) {
-    if (display.value.length < 32) {
-        display.value += value;
-        resizeText();
+    if (!isValidInput(value)) return;
+    
+    const current = display.value;
+    const lastChar = current.slice(-1);
+    const operators = ['+', '-', '*', '/', '.'];
+
+    // Block invalid sequences
+    if (operators.includes(value) && operators.includes(lastChar)) return;
+    if (value === '.' && current.split('.').length > (current.match(/\d+\.\d+/g)?.length || 0) + 1) return;
+
+    // Reset display after result
+    if (isResultDisplayed && !isNaN(value)) {
+        display.value = '';
+        isResultDisplayed = false;
     }
-}
 
-function clearDisplay() {
-    display.value = '';
+    display.value += value;
     resizeText();
 }
 
-function deleteLast() {
-    display.value = display.value.slice(0, -1);
+// Delete/AC Logic
+function handleDelete() {
+    if (isResultDisplayed) {
+        display.value = '';
+        isResultDisplayed = false;
+    } else {
+        display.value = display.value.slice(0, -1);
+    }
     resizeText();
 }
 
+// Parentheses Logic
+function appendParenthesis() {
+    const open = (display.value.match(/\(/g) || []).length;
+    const close = (display.value.match(/\)/g) || []).length;
+    appendToDisplay(open <= close ? '(' : ')');
+}
+
+// Calculation
 function calculate() {
     try {
-        const expression = display.value
-            .replace(/×/g, '*')
-            .replace(/÷/g, '/');
+        const expression = display.value.replace(/×/g, '*').replace(/÷/g, '/');
         display.value = eval(expression);
+        isResultDisplayed = true;
     } catch (e) {
-        display.value = 'Error';
+        showError('Invalid expression');
     }
     resizeText();
 }
@@ -33,33 +60,48 @@ function calculate() {
 // Text Resizing
 function resizeText() {
     const length = display.value.length;
-    if (length > 16) display.style.fontSize = '24px';
-    else if (length > 8) display.style.fontSize = '36px';
-    else display.style.fontSize = '48px';
+    display.style.fontSize = length > 16 ? '24px' : length > 8 ? '36px' : '48px';
 }
 
 // Theme Toggle
 function toggleTheme() {
     const body = document.body;
-    const themeIcon = document.querySelector('.theme-toggle i');
-    body.setAttribute('data-theme', 
-        body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-    );
-    themeIcon.classList.toggle('fa-sun');
-    themeIcon.classList.toggle('fa-moon');
+    const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', theme);
+    document.querySelector('.theme-toggle i').className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
 }
 
-// Language Settings (Example: Decimal Separator)
+// Language Settings
 function changeLanguage(lang) {
     const decimalBtn = document.getElementById('decimal');
     decimalBtn.textContent = lang === 'de' ? ',' : '.';
+    document.getElementById('settings-title').textContent = lang === 'de' ? 'Einstellungen' : 'Settings';
+    document.querySelectorAll('[data-lang]').forEach(el => el.textContent = el.getAttribute(`data-lang-${lang}`));
+    document.getElementById('en-check').style.display = lang === 'en' ? 'inline' : 'none';
+    document.getElementById('de-check').style.display = lang === 'de' ? 'inline' : 'none';
 }
 
-// Settings Modal
-function toggleSettings() {
-    const modal = document.getElementById('settings-modal');
-    modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+// Settings Menu Toggle
+function toggleMenu() {
+    document.getElementById('settings-modal').classList.toggle('active');
 }
+
+// Error Handling
+function showError(message) {
+    const toast = document.getElementById('error-toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    const settingsModal = document.getElementById('settings-modal');
+    if (!e.target.closest('.settings-modal') && !e.target.closest('.settings-button')) {
+        settingsModal.classList.remove('active');
+    }
+});
 
 // Initialize
 document.body.setAttribute('data-theme', 'light');
+changeLanguage('en');

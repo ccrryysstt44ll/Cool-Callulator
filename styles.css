@@ -1,23 +1,22 @@
-/* Theme Variables */
 :root {
     --background-light: url('images/main-bg-bright.webp');
     --background-dark: url('images/main-bg-dark.webp');
-    --calculator-bg: rgba(255, 255, 255, 0.9);
-    --text: #333;
-    --button-bg: #f0f0f0;
-    --button-hover: #e0e0e0;
+    --calculator-bg: rgba(255, 255, 255, 0.85);
+    --text: #2d2d2d;
+    --button-bg: rgba(255, 255, 255, 0.9);
+    --button-hover: rgba(255, 255, 255, 0.8);
     --operator-bg: #ff9f43;
     --operator-hover: #ff7f00;
 }
 
 [data-theme="dark"] {
-    --calculator-bg: rgba(45, 45, 45, 0.9);
-    --text: #fff;
-    --button-bg: #444;
-    --button-hover: #555;
+    --calculator-bg: rgba(45, 45, 45, 0.85);
+    --text: #ffffff;
+    --button-bg: rgba(68, 68, 68, 0.9);
+    --button-hover: rgba(85, 85, 85, 0.8);
 }
 
-/* Core Styles */
+/* Body & Background */
 body {
     margin: 0;
     height: 100vh;
@@ -36,44 +35,51 @@ body[data-theme="dark"] {
     background-image: var(--background-dark);
 }
 
+/* Calculator */
 .calculator {
     background: var(--calculator-bg);
     border-radius: 20px;
     padding: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    width: 320px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Display */
 #display {
-    width: 100%;
+    width: calc(100% - 20px);
     height: 80px;
-    background: rgba(255, 255, 255, 0.1);
+    margin: 0 10px 20px 10px;
+    padding: 0 10px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
     color: var(--text);
     font-size: 36px;
     text-align: right;
-    padding: 10px;
-    margin-bottom: 20px;
     transition: font-size 0.3s;
 }
 
+/* Buttons */
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    padding: 10px;
 }
 
 button {
-    background: var(--button-bg);
     border: none;
-    border-radius: 15px;
-    color: var(--text);
+    border-radius: 12px;
+    padding: 18px;
     font-size: 24px;
-    padding: 15px;
+    background: var(--button-bg);
+    color: var(--text);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
 button:hover {
@@ -87,7 +93,7 @@ button:active {
 
 .operator {
     background: var(--operator-bg);
-    color: #fff;
+    color: white;
 }
 
 .operator:hover {
@@ -96,25 +102,102 @@ button:active {
 
 .equals {
     grid-column: span 2;
-    background: var(--operator-bg);
 }
 
+/* Settings Menu (Top Right) */
+.settings-modal {
+    position: fixed;
+    top: 20px;
+    right: -300px;
+    width: 250px;
+    background: var(--calculator-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.settings-modal.active {
+    right: 20px;
+}
+
+.settings-content {
+    padding: 20px;
+}
+
+.settings-content h2 {
+    margin: 0 0 15px 0;
+    font-size: 1.5em;
+}
+
+.settings-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.settings-content li {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.settings-content li:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.settings-content li.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.flag {
+    width: 24px;
+    height: 18px;
+    border-radius: 3px;
+}
+
+/* Theme Toggle */
 .theme-toggle {
     position: fixed;
     bottom: 20px;
     right: 20px;
     background: var(--button-bg);
-    border-radius: 50%;
     width: 50px;
     height: 50px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
 }
 
-.modal {
-    display: none;
-    /* ... (keep existing modal styles) ... */
+.theme-toggle:hover {
+    background: var(--button-hover);
+}
+
+/* Error Toast */
+.error-toast {
+    position: fixed;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: bottom 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.error-toast.show {
+    bottom: 20px;
 }
