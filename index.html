@@ -3,33 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool Calculator</title>
+    <title>OmniCalc</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Calculator -->
     <div class="calculator">
-        <input type="text" id="display" disabled>
+        <!-- Settings Button -->
+        <button class="settings-button" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
+
+        <!-- Display -->
+        <input type="text" id="display" oninput="resizeText()" placeholder="0">
+
+        <!-- Buttons -->
         <div class="buttons">
-            <button onclick="clearDisplay()" class="operator">C</button>
-            <button onclick="appendToDisplay('/')" class="operator">/</button>
-            <button onclick="appendToDisplay('*')" class="operator">*</button>
-            <button onclick="deleteLast()" class="operator">DEL</button>
+            <button onclick="appendToDisplay('+')" class="operator">+</button>
+            <button onclick="appendToDisplay('-')" class="operator">-</button>
+            <button onclick="appendToDisplay('*')" class="operator">×</button>
+            <button onclick="appendToDisplay('/')" class="operator">÷</button>
+
             <button onclick="appendToDisplay('7')">7</button>
             <button onclick="appendToDisplay('8')">8</button>
             <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('-')" class="operator">-</button>
+            <button onclick="appendToDisplay('(')">(</button>
+            <button onclick="appendToDisplay(')')">)</button>
+
             <button onclick="appendToDisplay('4')">4</button>
             <button onclick="appendToDisplay('5')">5</button>
             <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('+')" class="operator">+</button>
+            <button onclick="appendToDisplay('.')" id="decimal">.</button>
+
             <button onclick="appendToDisplay('1')">1</button>
             <button onclick="appendToDisplay('2')">2</button>
             <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="calculate()" class="equals operator">=</button>
+            <button onclick="deleteLast()" class="operator">DEL</button>
+            <button onclick="clearDisplay()" class="operator">AC</button>
+
+            <button onclick="toggleMenu()" class="mode-button">Mode</button>
             <button onclick="appendToDisplay('0')" class="zero">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()" class="equals operator">=</button>
         </div>
     </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <button onclick="changeLanguage('en')">English</button>
+            <button onclick="changeLanguage('de')">Deutsch</button>
+            <button disabled onclick="alert('Coming Soon!')">Rearrange</button>
+            <button disabled onclick="alert('Coming Soon!')">Custom Themes</button>
+            <div class="about">
+                <p>Made with ❤️ by CRYSTAL</p>
+                <p>© 2025 CRYST4L</p>
+            </div>
+            <button onclick="toggleSettings()">Close</button>
+        </div>
+    </div>
+
+    <!-- Dark/Light Mode Toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
