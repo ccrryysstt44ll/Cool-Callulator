@@ -1,6 +1,7 @@
-// Calculator Logic
+// Display Logic
+const display = document.getElementById('display');
+
 function appendToDisplay(value) {
-    const display = document.getElementById('display');
     if (display.value.length < 32) {
         display.value += value;
         resizeText();
@@ -8,68 +9,56 @@ function appendToDisplay(value) {
 }
 
 function clearDisplay() {
-    document.getElementById('display').value = '';
+    display.value = '';
     resizeText();
 }
 
 function deleteLast() {
-    const display = document.getElementById('display');
     display.value = display.value.slice(0, -1);
     resizeText();
 }
 
 function calculate() {
-    const display = document.getElementById('display');
     try {
-        display.value = eval(display.value.replace(/×/g, '*').replace(/÷/g, '/'));
+        const expression = display.value
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/');
+        display.value = eval(expression);
     } catch (e) {
         display.value = 'Error';
     }
     resizeText();
 }
 
-// Resize Text
+// Text Resizing
 function resizeText() {
-    const display = document.getElementById('display');
     const length = display.value.length;
-    if (length > 16) {
-        display.style.fontSize = '24px';
-    } else if (length > 8) {
-        display.style.fontSize = '36px';
-    } else {
-        display.style.fontSize = '48px';
-    }
+    if (length > 16) display.style.fontSize = '24px';
+    else if (length > 8) display.style.fontSize = '36px';
+    else display.style.fontSize = '48px';
+}
+
+// Theme Toggle
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.querySelector('.theme-toggle i');
+    body.setAttribute('data-theme', 
+        body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+    );
+    themeIcon.classList.toggle('fa-sun');
+    themeIcon.classList.toggle('fa-moon');
+}
+
+// Language Settings (Example: Decimal Separator)
+function changeLanguage(lang) {
+    const decimalBtn = document.getElementById('decimal');
+    decimalBtn.textContent = lang === 'de' ? ',' : '.';
 }
 
 // Settings Modal
 function toggleSettings() {
     const modal = document.getElementById('settings-modal');
     modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-}
-
-// Language Change
-function changeLanguage(lang) {
-    const decimalButton = document.getElementById('decimal');
-    if (lang === 'de') {
-        decimalButton.textContent = ',';
-    } else {
-        decimalButton.textContent = '.';
-    }
-}
-
-// Theme Toggle
-function toggleTheme() {
-    const body = document.body;
-    const themeToggle = document.querySelector('.theme-toggle i');
-    if (body.getAttribute('data-theme') === 'dark') {
-        body.setAttribute('data-theme', 'light');
-        themeToggle.classList.remove('fa-moon');
-        themeToggle.classList.add('fa-sun');
-    } else {
-        body.setAttribute('data-theme', 'dark');
-        themeToggle.classList.remove('fa-sun');
-        themeToggle.classList.add('fa-moon');
-    }
 }
 
 // Initialize
