@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" 
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OmniCalc</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -15,9 +14,8 @@
     </button>
 
     <!-- Calculator -->
-    <div class="calculator">
-        <input type="text" id="display" placeholder="0" 
-               oninput="resizeText()" readonly>
+    <div class="calculator glass-panel">
+        <input type="text" id="display" placeholder="0" readonly>
 
         <div class="buttons">
             <button onclick="appendToDisplay('+')" class="operator">+</button>
@@ -53,14 +51,14 @@
             <h2 data-lang="de" style="display:none">Einstellungen</h2>
             
             <div class="menu-item" onclick="changeLanguage('en')">
-                <img src="img/en-flag.svg" class="flag">
+                <img src="img/en-flag.svg" class="flag" alt="English">
                 <span data-lang="en">English</span>
                 <span data-lang="de" style="display:none">Englisch</span>
                 <i class="fas fa-check" id="en-check"></i>
             </div>
             
             <div class="menu-item" onclick="changeLanguage('de')">
-                <img src="img/de-flag.svg" class="flag">
+                <img src="img/de-flag.svg" class="flag" alt="German">
                 <span data-lang="en">German</span>
                 <span data-lang="de" style="display:none">Deutsch</span>
                 <i class="fas fa-check" id="de-check"></i>

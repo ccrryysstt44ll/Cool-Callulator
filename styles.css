@@ -1,4 +1,3 @@
-/* Base Styles */
 :root {
     --bg-light: url('img/main-bg-bright.webp');
     --bg-dark: url('img/main-bg-dark.webp');
@@ -6,14 +5,33 @@
     --text-primary: #2d2d2d;
     --text-dark: #ffffff;
     --accent: #ff9f43;
+    --button-bg: #f0f0f0;
+    --button-hover-bg: #e0e0e0;
+    --operator-bg: #f8f8f8;
+    --equals-bg: var(--accent);
 }
 
 [data-theme="dark"] {
-    --glass-bg: rgba(45, 45, 45, 0.1);
+    --glass-bg: rgba(45, 45, 45, 0.3);
     --text-primary: #ffffff;
+    --button-bg: #333;
+    --button-hover-bg: #444;
+    --operator-bg: #404040;
 }
 
-/* Glass Effect */
+body {
+    background-image: var(--bg-light);
+    background-size: cover;
+    color: var(--text-primary);
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-image 0.3s ease;
+}
+
 .glass-panel {
     background: var(--glass-bg);
     border-radius: 16px;
@@ -21,10 +39,8 @@
     backdrop-filter: blur(7.5px);
     -webkit-backdrop-filter: blur(7.5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 20px;
 }
 
-/* Calculator Layout */
 .calculator {
     width: 95vw;
     max-width: 450px;
@@ -36,12 +52,15 @@
     width: calc(100% - 30px);
     margin: 0 15px 15px 15px;
     padding: 15px;
-    text-align: right;
     font-size: 2.5em;
     background: rgba(255, 255, 255, 0.15);
+    border: none;
+    text-align: right;
+    color: var(--text-primary);
 }
 
 .buttons {
+    display: grid;
     gap: 12px;
     padding: 0 15px 15px 15px;
     grid-template-columns: repeat(4, 1fr);
@@ -50,26 +69,83 @@
 button {
     padding: 20px;
     font-size: 1.5em;
-    transition: transform 0.1s, opacity 0.2s;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--button-bg);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
     touch-action: manipulation;
+}
+
+button:hover {
+    background-color: var(--button-hover-bg);
 }
 
 button:active {
     transform: scale(0.95);
-    transition: transform 0.05s;
 }
 
-/* Theme Toggle */
+.operator {
+    background-color: var(--operator-bg);
+}
+
+.equals {
+    background-color: var(--equals-bg);
+    color: var(--text-dark);
+}
+
 .theme-toggle {
+    position: fixed;
     bottom: 25px;
     right: 25px;
     width: 55px;
     height: 55px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(7.5px);
 }
 
-/* Error Toast */
+.settings-btn {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    width: 50px;
+    height: 50px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-menu.active {
+    display: flex;
+}
+
 .error-toast {
+    position: fixed;
     bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 15px 30px;
-    font-size: 1.1em;
+    background: #ff4d4d;
+    color: white;
+    border-radius: 8px;
+    display: none;
 }
