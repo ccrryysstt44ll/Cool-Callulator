@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" 
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OmniCalc</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Settings Button -->
+    <button class="settings-btn" onclick="toggleSettings()">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <!-- Calculator -->
     <div class="calculator">
-        <!-- Display -->
-        <input type="text" id="display" placeholder="0" oninput="resizeText()">
+        <input type="text" id="display" placeholder="0" 
+               oninput="resizeText()" readonly>
 
-        <!-- Buttons -->
         <div class="buttons">
             <button onclick="appendToDisplay('+')" class="operator">+</button>
             <button onclick="appendToDisplay('-')" class="operator">-</button>
@@ -23,52 +28,53 @@
             <button onclick="appendToDisplay('7')">7</button>
             <button onclick="appendToDisplay('8')">8</button>
             <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendParenthesis()" class="operator">( )</button>
+            <button onclick="handleParenthesis()" class="operator">( )</button>
 
             <button onclick="appendToDisplay('4')">4</button>
             <button onclick="appendToDisplay('5')">5</button>
             <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('.')" id="decimal">.</button>
+            <button onclick="appendDecimal()" id="decimal">.</button>
 
             <button onclick="appendToDisplay('1')">1</button>
             <button onclick="appendToDisplay('2')">2</button>
             <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="handleDelete()" class="operator" id="del-ac">DEL</button>
+            <button onclick="handleDelete()" class="operator" id="del-btn">DEL</button>
 
-            <button onclick="toggleMenu()" class="mode-button">Mode</button>
+            <button onclick="toggleMode()" class="mode-btn">≡</button>
             <button onclick="appendToDisplay('0')" class="zero">0</button>
             <button onclick="calculate()" class="equals operator">=</button>
         </div>
     </div>
 
-    <!-- Settings Menu (Top Right) -->
-    <div class="settings-modal" id="settings-modal">
-        <div class="settings-content">
-            <h2 id="settings-title"><i class="fas fa-cog"></i> Settings</h2>
-            <ul>
-                <li onclick="changeLanguage('en')">
-                    <img src="images/uk-flag.svg" class="flag" alt="English">
-                    <span>English</span>
-                    <i class="fas fa-check" id="en-check"></i>
-                </li>
-                <li onclick="changeLanguage('de')">
-                    <img src="images/de-flag.svg" class="flag" alt="Deutsch">
-                    <span>Deutsch</span>
-                    <i class="fas fa-check" id="de-check"></i>
-                </li>
-                <li class="disabled" onclick="showError('Coming soon!')">
-                    <i class="fas fa-palette"></i>
-                    <span>Themes</span>
-                </li>
-            </ul>
-            <div class="about">
-                <p>Made with ❤️ by CRYSTAL</p>
-                <p>© 2025 CRYST4L</p>
+    <!-- Settings Menu -->
+    <div class="settings-menu" id="settings-menu">
+        <div class="glass-panel">
+            <h2 data-lang="en">Settings</h2>
+            <h2 data-lang="de" style="display:none">Einstellungen</h2>
+            
+            <div class="menu-item" onclick="changeLanguage('en')">
+                <img src="img/en-flag.svg" class="flag">
+                <span data-lang="en">English</span>
+                <span data-lang="de" style="display:none">Englisch</span>
+                <i class="fas fa-check" id="en-check"></i>
+            </div>
+            
+            <div class="menu-item" onclick="changeLanguage('de')">
+                <img src="img/de-flag.svg" class="flag">
+                <span data-lang="en">German</span>
+                <span data-lang="de" style="display:none">Deutsch</span>
+                <i class="fas fa-check" id="de-check"></i>
+            </div>
+
+            <div class="menu-item disabled" onclick="showError('Coming soon!')">
+                <i class="fas fa-paint-brush"></i>
+                <span data-lang="en">Themes</span>
+                <span data-lang="de" style="display:none">Themen</span>
             </div>
         </div>
     </div>
 
-    <!-- Theme Toggle (Bottom Right) -->
+    <!-- Theme Toggle -->
     <div class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-sun"></i>
     </div>
